@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: neutron420/devix-staging:latest
+          image: riteshsingh193/devix-staging:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
