@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devix-backend-staging
+  labels:
+    app: devix-backend-staging
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: devix-backend-staging
+  template:
+    metadata:
+      labels:
+        app: devix-backend-staging
+    spec:
+      containers:
+        - name: backend
+          image: ${{ secrets.DOCKERHUB_USERNAME }}/devix-staging:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: devix-staging-secret
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devix-backend-staging
+spec:
+  selector:
+    app: devix-backend-staging
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: ClusterIP

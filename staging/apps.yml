@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: devix-backend-staging
+spec:
+  destination:
+    name: ''
+    namespace: 'default'
+    server: https://kubernetes.default.svc
+  source:
+    path: staging/backend
+    repoURL: https://github.com/neutron420/staging-ops.git
+    targetRevision: HEAD
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: devix-infra-staging
+spec:
+  destination:
+    name: ''
+    namespace: 'default'
+    server: https://kubernetes.default.svc
+  source:
+    path: staging
+    repoURL: https://github.com/neutron420/staging-ops.git
+    targetRevision: HEAD
+    directory:
+      recurse: true
+      include: '{postgres/*,redis/*,elasticsearch/*,ingress/*}'
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
