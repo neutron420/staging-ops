@@ -22,7 +22,7 @@ spec:
             - containerPort: 8080
           envFrom:
             - secretRef:
-                name: devix-staging-secret
+                name: cms-staging-secret
           livenessProbe:
             httpGet:
               path: /health
