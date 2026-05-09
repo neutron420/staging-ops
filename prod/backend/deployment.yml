@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/devix:latest
+          image: neutron420/devix:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
