@@ -1,3 +1,4 @@
+# Devix Staging Apps Configuration
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -17,6 +18,7 @@ spec:
       prune: true
       selfHeal: true
 ---
+# Devix Staging Apps Configuration
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
