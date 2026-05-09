@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devix-staging
+  labels:
+    app: devix-staging
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: devix-staging
+  template:
+    metadata:
+      labels:
+        app: devix-staging
+    spec:
+      containers:
+        - name: devix-staging
+          image: ghcr.io/neutron420/devix-backend/devix-staging:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: devix-staging-secret
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      imagePullSecrets:
+        - name: regcred
