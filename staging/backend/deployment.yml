@@ -5,19 +5,36 @@ metadata:
   labels:
     app: devix-backend-staging
 spec:
-  replicas: 2
   selector:
     matchLabels:
       app: devix-backend-staging
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 25%
   template:
     metadata:
       labels:
         app: devix-backend-staging
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: devix-backend-staging
+                topologyKey: kubernetes.io/hostname
       containers:
         - name: backend
           image: riteshsingh193/devix-staging:384ca6556cf2320dedb3d1eaae6951098b9b7807
           imagePullPolicy: Always
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1000
           ports:
             - containerPort: 8080
           envFrom:
