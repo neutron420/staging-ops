@@ -34,7 +34,7 @@ spec:
     targetRevision: HEAD
     directory:
       recurse: true
-      include: '{postgres/*,redis/*,elasticsearch/*}'
+      include: '{postgres/*,redis/*,elasticsearch/*,monitoring/*}'
   project: default
   syncPolicy:
     automated:
