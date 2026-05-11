@@ -65,6 +65,8 @@ data:
               namespace:
               pod:
               container:
+          - labeldrop:
+              - uid
 ---
 apiVersion: apps/v1
 kind: DaemonSet
