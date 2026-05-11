@@ -50,6 +50,8 @@ data:
       - url: http://loki:3100/loki/api/v1/push
     scrape_configs:
       - job_name: kubernetes-pods
+        pipeline_stages:
+          - docker: {}
         kubernetes_sd_configs:
           - role: pod
         relabel_configs:
@@ -59,8 +61,16 @@ data:
             target_label: namespace
           - source_labels: [__meta_kubernetes_pod_name]
             target_label: pod
-        pipeline_stages:
-          - docker: {}
+          - source_labels: [__meta_kubernetes_pod_node_name]
+            target_label: node_name
+          - action: replace
+            source_labels:
+              - __meta_kubernetes_namespace
+              - __meta_kubernetes_pod_name
+              - __meta_kubernetes_pod_container_name
+            separator: /
+            replacement: /var/log/pods/$1_$2_$3/**/*.log
+            target_label: __path__
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -76,7 +86,7 @@ spec:
       labels:
         app: promtail
     spec:
-      serviceAccountName: prometheus # Reusing the RBAC we created earlier
+      serviceAccountName: prometheus
       containers:
         - name: promtail
           image: grafana/promtail:latest
