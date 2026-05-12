@@ -16,16 +16,23 @@ spec:
                 - /bin/sh
                 - -c
                 - |
-                  # Install pg_dump
-                  yum install -y postgresql
+                  set -e
+                  # Install pg_dump for Amazon Linux 2023
+                  dnf install -y postgresql15
                   
                   # Create backup
                   DATE=$(date +%Y-%m-%d_%H-%M-%S)
                   FILENAME="backup-$DATE.sql"
-                  echo "Starting backup of $DATABASE_URL..."
+                  echo "Starting backup of database..."
                   pg_dump $DATABASE_URL > /tmp/$FILENAME
                   
-                  # Upload to R2 using AWS CLI (Compatible with R2)
+                  # Check if file is not empty
+                  if [ ! -s /tmp/$FILENAME ]; then
+                    echo "Error: Backup file is empty!"
+                    exit 1
+                  fi
+                  
+                  # Upload to R2 using AWS CLI
                   echo "Uploading $FILENAME to R2..."
                   AWS_ACCESS_KEY_ID=$R2_ACCESS_KEY \
                   AWS_SECRET_ACCESS_KEY=$R2_SECRET_KEY \
