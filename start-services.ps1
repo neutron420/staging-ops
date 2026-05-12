@@ -23,7 +23,7 @@ Get-Process | Where-Object { $_.ProcessName -eq "kubectl" } | Stop-Process -Forc
 
 # Start new port-forwards in background
 Start-Process kubectl -ArgumentList "port-forward svc/argocd-server -n argocd 8080:443" -WindowStyle Hidden
-Start-Process kubectl -ArgumentList "port-forward svc/grafana 3000:3000" -WindowStyle Hidden
+Start-Process kubectl -ArgumentList "port-forward svc/grafana 3005:3000" -WindowStyle Hidden
 Start-Process kubectl -ArgumentList "port-forward svc/uptime-kuma 3001:3001" -WindowStyle Hidden
 Start-Process kubectl -ArgumentList "port-forward svc/prometheus 9090:9090" -WindowStyle Hidden
 
