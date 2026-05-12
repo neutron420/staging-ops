@@ -11,14 +11,14 @@ spec:
         spec:
           containers:
             - name: backup
-              image: amazon/aws-cli
+              image: postgres:17-alpine
               command:
                 - /bin/sh
                 - -c
                 - |
                   set -e
-                  # Install pg_dump for Amazon Linux 2023
-                  dnf install -y postgresql15
+                  # Install AWS CLI
+                  apk add --no-cache aws-cli
                   
                   # Create backup
                   DATE=$(date +%Y-%m-%d_%H-%M-%S)
