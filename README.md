@@ -7,6 +7,7 @@
 ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-Search-005571?style=flat-square&logo=elasticsearch)
 ![Prometheus](https://img.shields.io/badge/Prometheus-Metrics-E6522C?style=flat-square&logo=prometheus)
 ![Grafana](https://img.shields.io/badge/Grafana-Dashboards-F46800?style=flat-square&logo=grafana)
+![Loki](https://img.shields.io/badge/Loki-Logging-white?style=flat-square&logo=grafana)
 ![Uptime Kuma](https://img.shields.io/badge/Uptime_Kuma-Monitoring-60A5FA?style=flat-square&logo=uptimekuma)
 ![Sealed Secrets](https://img.shields.io/badge/Sealed_Secrets-Security-5F6D7A?style=flat-square)
 ![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=flat-square&logo=docker)
