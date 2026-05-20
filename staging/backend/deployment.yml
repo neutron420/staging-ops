@@ -33,7 +33,7 @@ spec:
                 topologyKey: kubernetes.io/hostname
       containers:
         - name: backend
-          image: riteshsingh193/devix-staging:0ba6b6ad76b2b9e8f312c7e9f2ae77837211cab6
+          image: riteshsingh193/devix-staging:df6015c2900e14627723fa5b0095c9dad9c470a5
           imagePullPolicy: Always
           securityContext:
             allowPrivilegeEscalation: false
