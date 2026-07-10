@@ -26,10 +26,12 @@ Start-Process kubectl -ArgumentList "port-forward svc/grafana 3005:3005" -Window
 Start-Sleep -Seconds 2
 Start-Process kubectl -ArgumentList "port-forward svc/uptime-kuma 3001:3001" -WindowStyle Hidden
 Start-Process kubectl -ArgumentList "port-forward svc/prometheus 9091:9090" -WindowStyle Hidden
+Start-Process kubectl -ArgumentList "port-forward svc/devix-frontend-staging 3002:80" -WindowStyle Hidden
 
 Write-Host "--------------------------------------------------"
 Write-Host "SERVICES ARE NOW ACCESSIBLE LOCALLY:"
 Write-Host "ArgoCD:      https://localhost:8080"
+Write-Host "Frontend:    http://localhost:3002"
 Write-Host "Grafana:     http://localhost:3005"
 Write-Host "Uptime Kuma: http://localhost:3001"
 Write-Host "Prometheus:  http://localhost:9091"
