@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devix-frontend-staging
+  labels:
+    app: devix-frontend-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devix-frontend-staging
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 25%
+  template:
+    metadata:
+      labels:
+        app: devix-frontend-staging
+    spec:
+      containers:
+        - name: frontend
+          image: riteshsingh193/devix-frontend-staging:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          startupProbe:
+            httpGet:
+              path: /
+              port: 3000
+            failureThreshold: 15
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 10
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devix-frontend-staging
+spec:
+  selector:
+    app: devix-frontend-staging
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: ClusterIP
