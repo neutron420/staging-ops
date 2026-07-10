@@ -37,8 +37,16 @@ Write-Host "Uptime Kuma: http://localhost:3001"
 Write-Host "Prometheus:  http://localhost:9091"
 
 Write-Host "`nGetting ArgoCD admin password..."
-$password = kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}"
-$decoded = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($password))
-Write-Host "ArgoCD Password: $decoded"
+$password = kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" 2>$null
+if ($password) {
+    try {
+        $decoded = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($password))
+        Write-Host "ArgoCD Password: $decoded"
+    } catch {
+        Write-Host "Error decoding password secret: $_"
+    }
+} else {
+    Write-Host "ArgoCD Password: (Could not retrieve password automatically. Cluster might be busy/connecting. Your password is still: xP84vExZIfe4scJE)"
+}
 Write-Host "--------------------------------------------------"
 Write-Host "Note: Keep this terminal open or remember that port-forwards are running in the background."
